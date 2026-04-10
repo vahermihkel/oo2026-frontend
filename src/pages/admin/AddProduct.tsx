@@ -9,6 +9,7 @@ function AddProduct() {
     active: false,
     stock: 0,
     category: {
+      id: 1,
       name: ""
     }
   });
