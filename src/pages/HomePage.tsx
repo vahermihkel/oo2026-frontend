@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { Product } from "../models/Product";
+import { Category } from "../models/Category";
 
 // renderdamine --> esmakordne componendi peale tulek
 // re-renderdamine --> componendi HTMLs muutujate olekute muutmine
@@ -11,21 +12,29 @@ function HomePage() {
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(3);
   const [sort, setSort] = useState("id,asc");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [activeCategoryId, setActiveCategoryId] = useState(0);
   // let products = [];
   // products = json
 
+  useEffect(() => {
+    fetch(import.meta.env.VITE_BACK_URL + "/categories")
+      .then(res => res.json())
+      .then(json => setCategories(json)) 
+  }, []);
+
   // uef --> enter
   // onLoad funktsioon + dependency array sees olevate muutujate muutmisel läheb käima
-  // http://localhost:8080/products?page=1&size=3&sort=id,desc
+  // http://localhost:8080/products?page=1&size=3&sort=id,desc&activeCategoryId=0
   useEffect(() => {
-    fetch(import.meta.env.VITE_BACK_URL + `/products?page=${page}&size=${size}&sort=${sort}`) // URL kuhu läheb päring
+    fetch(import.meta.env.VITE_BACK_URL + `/products?page=${page}&size=${size}&sort=${sort}&activeCategoryId=${activeCategoryId}`) // URL kuhu läheb päring
       .then(res => res.json()) // kogu tagastus
       .then(json => {
         setProducts(json.content);
         setTotalElements(json.totalElements);
         setTotalPages(json.totalPages);
       }) // response-i body
-  }, [page, size, sort]);
+  }, [page, size, sort, activeCategoryId]);
 
   // function sizeHandler() {
 
@@ -37,6 +46,11 @@ function HomePage() {
 
   const sortHandler = (newSort: string) => {
     setSort(newSort);
+    setPage(0);
+  }
+
+  const activeCategoryHandler = (categoryId: number) => {
+    setActiveCategoryId(categoryId);
     setPage(0);
   }
 
@@ -62,6 +76,22 @@ function HomePage() {
       <button onClick={() => sortHandler("name,desc")}>Sorteeri Z-A</button>
       <button onClick={() => sortHandler("price,asc")}>Sorteeri hind kasvavalt</button>
       <button onClick={() => sortHandler("price,desc")}>Sorteeri hind kahanevalt</button>
+
+      <br /><br />
+
+      <button
+          style={activeCategoryId === 0 ? {fontWeight: "bold"}: undefined} 
+          onClick={() => activeCategoryHandler(0)}
+      >
+        Kõik kategooriad
+      </button>
+      {categories.map(category => 
+        <button 
+          style={activeCategoryId === category.id ? {fontWeight: "bold"}: undefined} 
+          onClick={() => activeCategoryHandler(Number(category.id))}>
+          {category.name}
+        </button>
+      )}
 
       <br /><br />
 
