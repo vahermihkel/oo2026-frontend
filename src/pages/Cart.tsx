@@ -12,18 +12,20 @@ function Cart() {
   }
 
   const decreaseQuantity = (index: number) => {
-    orderRows[index].quantity--;
-    if (orderRows[index].quantity === 0) {
-      orderRows.splice(index,1);
+    const cart = [...orderRows];
+    cart[index].quantity++;
+    if (cart[index].quantity === 0) {
+      cart.splice(index,1);
     }
-    setOrderRows([...orderRows]); // HTML uuenduseks
-    localStorage.setItem("cart", JSON.stringify(orderRows)); // LS update-miseks
+    setOrderRows(cart); // HTML uuenduseks
+    localStorage.setItem("cart", JSON.stringify(cart)); // LS update-miseks
   }
 
   const increaseQuantity = (index: number) => {
-    orderRows[index].quantity++;
-    setOrderRows([...orderRows]);
-    localStorage.setItem("cart", JSON.stringify(orderRows));
+    const cart = [...orderRows];
+    cart[index].quantity++;
+    setOrderRows(cart);
+    localStorage.setItem("cart", JSON.stringify(cart));
   }
 
   const emptyCart = () => {
@@ -56,7 +58,7 @@ function Cart() {
         </div>
       )}
 
-      {orderRows.length > 0 && <div>{calculateTotal()}</div> }
+      {orderRows.length > 0 && <div>Kokku: {calculateTotal()}</div> }
     </div>
   )
 }
