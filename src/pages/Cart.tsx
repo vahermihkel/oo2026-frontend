@@ -96,9 +96,12 @@ export default Cart
 // Ütle kui ostukorv tühi on++
 // Ostukorvi kogusumma arvutamine++
 // Backendi uue tellimuse saatmine++
+// Signup --> isiku lisamine++
 
-// Signup --> isiku lisamine + aadressi
+// Profile --> aadressi lisamine
 // Login, aga tokenit ei hakka väljastama
 
 // ProductDetails
 // EditProduct
+
+// API päringud: pakiautomaadid
