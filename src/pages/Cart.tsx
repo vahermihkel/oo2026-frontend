@@ -13,7 +13,7 @@ function Cart() {
 
   const decreaseQuantity = (index: number) => {
     const cart = [...orderRows];
-    cart[index].quantity++;
+    cart[index].quantity--;
     if (cart[index].quantity === 0) {
       cart.splice(index,1);
     }
@@ -37,7 +37,25 @@ function Cart() {
   // if (false && true)
 
   const calculateTotal = () => {
-    return 100;
+    let sum = 0;
+    orderRows.forEach(orderRow => sum = sum + orderRow.product.price * orderRow.quantity);
+    return sum;
+  }
+
+  const makeOrder = () => {
+    const payload = orderRows.map(orderRow => ({productId: orderRow.product.id, quantity: orderRow.quantity}));
+
+    fetch(import.meta.env.VITE_BACK_URL + "/orders?personId=1", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+        //"Authorization": "Bearer " + sessionStorage.getItem("token")
+        // jwt.io: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30
+      }
+    }).then(res => res.json())
+      .then(json => alert("Lisasid edukalt tellimuse ID-ga: " + json.id)) // toastify: https://www.npmjs.com/package/react-toastify
+      // react-hot-toast: https://react-hot-toast.com/
   }
 
   return (
@@ -58,17 +76,26 @@ function Cart() {
         </div>
       )}
 
-      {orderRows.length > 0 && <div>Kokku: {calculateTotal()}</div> }
+      {orderRows.length > 0 && 
+        <>
+          <div>Kokku: {calculateTotal()}</div>
+          <button onClick={() => makeOrder()}>Telli</button>
+          <select>
+            <option>Pakiautomaat 1</option>
+            <option>Pakiautomaat 2</option>
+          </select>
+        </> }
+
     </div>
   )
 }
 
 export default Cart
 
-// Tühjenda funktsioon
-// Ütle kui ostukorv tühi on
-// Ostukorvi kogusumma arvutamine
-// Backendi uue tellimuse saatmine
+// Tühjenda funktsioon++
+// Ütle kui ostukorv tühi on++
+// Ostukorvi kogusumma arvutamine++
+// Backendi uue tellimuse saatmine++
 
 // Signup --> isiku lisamine + aadressi
 // Login, aga tokenit ei hakka väljastama
