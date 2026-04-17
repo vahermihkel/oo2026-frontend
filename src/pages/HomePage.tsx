@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import type { Product } from "../models/Product";
 import { Category } from "../models/Category";
+import { OrderRow } from "../models/OrderRow";
 
 // renderdamine --> esmakordne componendi peale tulek
 // re-renderdamine --> componendi HTMLs muutujate olekute muutmine
@@ -54,6 +55,20 @@ function HomePage() {
     setPage(0);
   }
 
+  const addToCart = (clickedProduct: Product) => {
+    const cart: OrderRow[] = JSON.parse(localStorage.getItem("cart") || "[]");
+    const foundProduct = cart.find(orderRow => orderRow.product.id === clickedProduct.id);
+    if (foundProduct) {
+      foundProduct.quantity++;
+      // foundProduct.quantity += 1;
+      // foundProduct.quantity = foundProduct.quantity + 1;
+    } else {
+      cart.push({product: clickedProduct, quantity: 1});
+    }
+    // cart.push(); <--- maha
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
   // tõlge: https://react.i18next.com/guides/quick-start
   return (
     <div>
@@ -98,6 +113,7 @@ function HomePage() {
       {products.map(product => 
         <div key={product.id}>
           {product.name} - {product.price}€
+          <button onClick={() => addToCart(product)}>Lisa ostukorvi</button>
         </div>)}
 
       <button disabled={page === 0} onClick={() => setPage(page - 1)}>Eelmine</button>
