@@ -98,10 +98,11 @@ export default Cart
 // Backendi uue tellimuse saatmine++
 // Signup --> isiku lisamine++
 
-// Profile --> aadressi lisamine
-// Login, aga tokenit ei hakka väljastama
-
-// ProductDetails
-// EditProduct
+// Profile --> aadressi lisamine++
+// Login, aga tokenit ei hakka väljastama++
 
 // API päringud: pakiautomaadid
+
+// ProductDetails
+
+// EditProduct

@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import ProductDetails from './pages/ProductDetails'
 import NotFound from './pages/NotFound'
+import Profile from './pages/Profile'
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
         <Route path="/manage-categories" element={ <ManageCategories /> } />
         <Route path="/login" element={ <Login /> } />
         <Route path="/signup" element={ <Signup /> } />
+        <Route path="/profile" element={ <Profile /> } />
         <Route path="/product" element={ <ProductDetails /> } />
         <Route path="/*" element={ <NotFound /> } />
       </Routes>

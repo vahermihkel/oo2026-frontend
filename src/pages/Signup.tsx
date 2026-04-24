@@ -17,7 +17,8 @@ function Signup() {
 					alert("Juhtus viga: " + json.message);
 					return;
 				}
-				alert("Registreerusid edukalt ID-ga: " + json.id)
+				alert("Registreerusid edukalt ID-ga: " + json.id);
+				sessionStorage.setItem("token", json.id);
 			})
 	}
 
