@@ -101,7 +101,7 @@ export default Cart
 // Profile --> aadressi lisamine++
 // Login, aga tokenit ei hakka väljastama++
 
-// API päringud: pakiautomaadid
+// API päringud: pakiautomaadid++
 
 // ProductDetails
 
